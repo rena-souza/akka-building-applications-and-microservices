@@ -18,5 +18,7 @@ object Hello extends App {
 
   greeter ! WhoToGreet("World")
 
+  system.terminate()
+
 }
 
