@@ -1,9 +1,22 @@
 package example
 
-object Hello extends Greeting with App {
-  println(greeting)
+import akka.actor.{Actor, ActorSystem, Props}
+
+case class WhoToGreet(who: String)
+
+class Greeter extends Actor {
+  def receive = {
+    case WhoToGreet(who) => println(s"Hello $who")
+  }
 }
 
-trait Greeting {
-  lazy val greeting: String = "hello"
+object Hello extends App {
+
+  val system = ActorSystem("Hello-Akka")
+
+  val greeter = system.actorOf(Props[Greeter], "greeter")
+
+  greeter ! WhoToGreet("World")
+
 }
+
